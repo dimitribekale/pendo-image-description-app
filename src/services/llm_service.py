@@ -1,4 +1,6 @@
 import torch
+from PIL import Image
+from transformers import pipeline
 from config.settings import (
     HUGGINGFACE_MODEL,
     HUGGINGFACE_DEVICE,
@@ -11,7 +13,7 @@ class LLMService:
     """
     Loading a HuggingFace model.
     """
-    def __inti__(self):
+    def __init__(self):
         self.image_service = ImageService()
         self._hf_pipeline = None
 
@@ -26,9 +28,6 @@ class LLMService:
         """Inference using the model."""
 
         try:
-            from tranformers import pipeline
-            from PIL import Image
-
             if self._hf_pipeline is None:
                 device_map = self._get_device()
                 print(f"Loading the model from HuggingFace: {HUGGINGFACE_MODEL}")
@@ -88,7 +87,7 @@ class LLMService:
                 f"More Details here: {str(e)}"
             )
         except Exception as e:
-            raise Exception(f"HuggingFace mode error; {str(e)}")
+            raise Exception(f"HuggingFace model error: {str(e)}")
         
     def _get_device(self):
 
